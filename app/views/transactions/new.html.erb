@@ -1,16 +1,15 @@
 <%= form_for :transaction, url: transactions_path do |f| %>
+<!-- Throughout this file, f is one of the arguments used -->
 
 <!-- @transaction when rendering this page originally will be blank
 However when coming here from create, @transaction is already
 initialized - AND it will have the .errors attribute -->
 <% if @transaction and @transaction.errors.any? %>
   <div id="error_explanation">
-    <h2>
       <!-- Rails helper that takes number and string and then will auto
       pluralizes it -->
       <%= pluralize(@transaction.errors.count, "error") %> prohibited this transaction
       from being saved:
-    </h2>
     <ul>
       <% @transaction.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>
@@ -18,7 +17,10 @@ initialized - AND it will have the .errors attribute -->
     </ul>
   </div>
 <% end %>
+
+
 <p>
+  <!-- The symbol placed here will be the actual text displayed -->
   <%= f.label :description %><br>
   <%= f.text_field :description %>
 </p>

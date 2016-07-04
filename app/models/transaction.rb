@@ -8,21 +8,6 @@ class Transaction < ActiveRecord::Base
   validates_presence_of :description
   validates_presence_of :date
 
-  # These conditions are checks with @transaction.save,
-  # which is a method from ActiveRecord::Base
-  # validates :description, presence: true, length: { minimum: 3 }
-  # validates :amount, presence: true
-  # validates :date, presence:
-  #
-
-  def balance
-    total = 0
-    Transaction.all.each do |t|
-      total += t.amount
-    end
-    return total
-  end
-
   def testy
     puts "yup"
     "okie"

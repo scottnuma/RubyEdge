@@ -2,7 +2,7 @@ class TransactionsController < ApplicationController
   def index
     @transactions = Transaction.all
     @total = 0
-    Transaction.all.each do |t|
+    @transactions.each do |t|
       @total += t.amount
     end
   end
@@ -21,6 +21,7 @@ class TransactionsController < ApplicationController
   def create
     # Add the date into the argument if nothing is added
     @transaction = Transaction.new(transaction_params)
+
     # The save method also validates the instance
     if @transaction.save
       redirect_to @transaction
