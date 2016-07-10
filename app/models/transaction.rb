@@ -8,7 +8,7 @@ class Transaction < ActiveRecord::Base
   validates_presence_of :description
   validates_presence_of :date
 
-  def testy
+  def testin
     puts "yup"
     "okie"
   end
@@ -24,7 +24,20 @@ class Transaction < ActiveRecord::Base
     desc ||= "nil"
     dat ||= "nil"
 
-    "Transaction(#{amt}, #{desc}, #{dat})"
+    "Transaction(#{amt}, #{desc}, #{form_date})"
   end
 
+  def self.to_csv
+    attributes = %w{amount form_date description}
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+      all.each do |user|
+        csv << attributes.map { |attr| user.send(attr)}
+      end
+    end
+  end
+
+  def form_date
+    "#{date.month}/#{date.day}/#{date.year - 2000}"
+  end
 end

@@ -5,6 +5,11 @@ class TransactionsController < ApplicationController
     @transactions.each do |t|
       @total += t.amount
     end
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data @transactions.to_csv, filename: "users-#{Date.today}.csv"}
+    end
   end
 
   def show
