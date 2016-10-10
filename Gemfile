@@ -26,3 +26,6 @@ group :production do
   gem 'pg'
   gem 'rails_12factor'
 end
+
+# Google authentication
+gem 'omniauth-google-oauth2', '~> 0.2.1'
