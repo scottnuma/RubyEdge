@@ -1,12 +1,9 @@
 class Transaction < ActiveRecord::Base
-  # include ActiveModel::Model
-  # attr_accessor :amount
-  # attr_accessor :description
-  # attr_accessor :date
-  #
+
   validates_presence_of :amount
-  validates_presence_of :description
+  validates_presence_of :label
   validates_presence_of :date
+  validates_presence_of :withdrawal
 
   def testin
     puts "yup"
@@ -14,12 +11,12 @@ class Transaction < ActiveRecord::Base
   end
 
   def to_s
-    "Transaction(#{@amount}, #{@description}, #{@date})"
+    "Transaction(#{@amount}, #{@label}, #{@date})"
   end
 
   def inspect
     # These variables currently aren't initialized
-    amt, desc, dat = @amount, @description, @date
+    amt, desc, dat = @amount, @label, @date
     amt ||= "nil"
     desc ||= "nil"
     dat ||= "nil"
@@ -28,7 +25,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.to_csv
-    attributes = %w{amount form_date description}
+    attributes = %w{amount form_date label}
     CSV.generate(headers: true) do |csv|
       csv << attributes
       all.each do |user|
@@ -40,4 +37,16 @@ class Transaction < ActiveRecord::Base
   def form_date
     "#{date.month}/#{date.day}/#{date.year - 2000}"
   end
+
+  def form_amount
+    if withdrawal != nil
+      if withdrawal
+        return amount
+      else
+        return amount * -1
+      end
+    end
+    return amount
+  end
+
 end

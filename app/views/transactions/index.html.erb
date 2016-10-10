@@ -1,20 +1,14 @@
 <h1>All Transactions</h1>
 <%= link_to 'New Transaction', new_transaction_path %>
 <table>
-    <tr>
-        <th>Description</th>
-        <th>Text</th>
-        <th>Date</th>
-        <th colspan ="2"></th>
-    </tr>
     <% @transactions.each do |transaction| %>
     <tr>
-        <td><%= transaction.description %></td>
-        <td><%= format("$%.2f", transaction.amount.to_f) %></td>
-        <td><%= transaction.date %></td>
-        <td><%= link_to 'Show', transaction_path(transaction) %></td>
+        <td><%= link_to transaction.label, transaction_path(transaction) %></td>
+        <td><%= format("$%.2f", transaction.form_amount.to_f) %></td>
+        <td><%= transaction.form_date %></td>
+
         <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>
-        <td><%= link_to 'Destroy', transaction_path(transaction),
+        <td><%= link_to 'Delete', transaction_path(transaction),
                 method: :delete,
                 data: { confirm: 'Are you sure?' } %></td>
     </tr>
