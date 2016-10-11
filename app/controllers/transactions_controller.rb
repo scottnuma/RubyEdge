@@ -53,6 +53,11 @@ class TransactionsController < ApplicationController
   def update
     @transaction = Transaction.find(params[:id])
     checkPermissions(@transaction)
+    if @transaction.update(transaction_params)
+      redirect_to @transaction
+    else
+      render 'edit'		
+    end
   end
 
   def destroy
