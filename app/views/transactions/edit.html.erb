@@ -29,12 +29,9 @@ This first argument is auto-populated in the fields of the form -->
   </p>
 
   <p>
-    <%= f.radio_button(:withdrawal, true) %>
-    <%= f.label(:withdrawal_true, "Withdrawal") %>
-    <%= f.radio_button(:withdrawal, false) %>
-    <%= f.label(:withdrawal_false, "Deposit") %>
+    <%= f.collection_radio_buttons :withdrawal, [[true, 'withdrawal'] ,[false, 'deposit']],:first, :last %>
   </p>
-  
+
   <p>
     <%= f.label :date %><br>
     <%= f.date_field :date %>

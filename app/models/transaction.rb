@@ -3,7 +3,7 @@ class Transaction < ActiveRecord::Base
   validates_presence_of :amount
   validates_presence_of :label
   validates_presence_of :date
-  validates_presence_of :withdrawal
+  # validates_presence_of :withdrawal
 
   def testin
     puts "yup"
