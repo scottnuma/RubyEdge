@@ -12,6 +12,7 @@ group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'rake'
 end
 
 gem 'foundation-rails', '~> 5.5'

@@ -201,6 +201,7 @@ DEPENDENCIES
   rails (= 4.2.6)
   rails_12factor
   rails_layout
+  rake
   sass-rails (~> 5.0)
   simple_form
   spring
@@ -213,4 +214,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.4
+   1.13.3
