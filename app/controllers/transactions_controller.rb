@@ -1,6 +1,6 @@
 class TransactionsController < ApplicationController
   def index
-    @transactions = Transaction.all
+    @transactions = Transaction.select { |t| t[:user_id] == session[:user_id] }
     @total = 0
     @transactions.each do |t|
       @total += t.amount
