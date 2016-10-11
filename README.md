@@ -1,5 +1,4 @@
-== README
-
+# Ruby Edge [![Build Status](https://travis-ci.org/scottnuma/RubyEdge.svg)](https://travis-ci.org/scottnuma/RubyEdge)
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
