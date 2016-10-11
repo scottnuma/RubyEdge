@@ -31,9 +31,12 @@ initialized - AND it will have the .errors attribute -->
 </p>
 
 <p>
-  <%= f.label :withdrawal %><br>
-  <%= f.select :withdrawal, [['Withdrawal',2],['Deposit',1]] %>
+  <%= f.radio_button(:withdrawal, true) %>
+  <%= f.label(:withdrawal_true, "Withdrawal") %>
+  <%= f.radio_button(:withdrawal, false) %>
+  <%= f.label(:withdrawal_false, "Deposit") %>
 </p>
+
 <p>
   <%= f.label :date %><br>
   <%= f.date_field :date, :value => Date.today %>
