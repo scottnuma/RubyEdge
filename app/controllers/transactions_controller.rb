@@ -8,11 +8,19 @@ class TransactionsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv { send_data @transactions.to_csv, filename: "ruby-edge-#{Date.today}.csv"}
+      format.csv { send_data to_csv(@transactions), filename: "ruby-edge-#{Date.today}.csv"}
     end
   end
 
-
+  def to_csv (transactionSubset)
+    attributes = %w{amount form_date label}
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+      transactionSubset.each do |transaction|
+          csv << attributes.map { |attr| transaction.send(attr)}
+      end
+    end
+  end
 
   def show
     @transaction = Transaction.find(params[:id])
