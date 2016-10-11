@@ -8,12 +8,15 @@ class TransactionsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv { send_data @transactions.to_csv, filename: "users-#{Date.today}.csv"}
+      format.csv { send_data @transactions.to_csv, filename: "ruby-edge-#{Date.today}.csv"}
     end
   end
 
+
+
   def show
     @transaction = Transaction.find(params[:id])
+    checkPermissions(@transaction)
   end
 
   def new
@@ -21,6 +24,7 @@ class TransactionsController < ApplicationController
 
   def edit
     @transaction = Transaction.find(params[:id])
+    checkPermissions(@transaction)
   end
 
   def create
@@ -40,16 +44,12 @@ class TransactionsController < ApplicationController
 
   def update
     @transaction = Transaction.find(params[:id])
-
-    if @transaction.update(transaction_params)
-      redirect_to @transaction
-    else
-      render 'edit'
-    end
+    checkPermissions(@transaction)
   end
 
   def destroy
     @transaction = Transaction.find(params[:id])
+    checkPermissions(@transaction)
     @transaction.destroy
     redirect_to transactions_path
   end
@@ -62,5 +62,12 @@ class TransactionsController < ApplicationController
       puts params[:transaction][:user_id]
 
       params.require(:transaction).permit(:label, :amount, :date, :withdrawal, :user_id)
+    end
+
+    def checkPermissions(transactionToCheck)
+      if (transactionToCheck && transactionToCheck[:user_id] != session[:user_id])
+        flash.keep[:alert] = "You lack view permissions for this transaction"
+        redirect_to root_path
+      end
     end
 end
