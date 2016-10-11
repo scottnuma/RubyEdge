@@ -3,7 +3,7 @@ class Transaction < ActiveRecord::Base
   validates_presence_of :amount
   validates_presence_of :label
   validates_presence_of :date
-  validates_presence_of :withdrawal
+  # validates_presence_of :withdrawal
 
   def testin
     puts "yup"
@@ -28,8 +28,8 @@ class Transaction < ActiveRecord::Base
     attributes = %w{amount form_date label}
     CSV.generate(headers: true) do |csv|
       csv << attributes
-      all.each do |user|
-        csv << attributes.map { |attr| user.send(attr)}
+      all.each do |transaction|
+          csv << attributes.map { |attr| transaction.send(attr)}
       end
     end
   end
