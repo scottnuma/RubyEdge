@@ -33,6 +33,8 @@ class TransactionsController < ApplicationController
     else
       # In case of failure, go ahead and create a new transaction
       render 'new'
+      # @transaction still holds the old transaction, and thus has the
+      # errorneous arguments
     end
   end
 
@@ -54,6 +56,11 @@ class TransactionsController < ApplicationController
 
   private
     def transaction_params
-      params.require(:transaction).permit(:label, :amount, :date, :withdrawal)
+      # Add an extra argument that doens't originate in the format
+      # Rather pull from the current user
+      params[:transaction][:user_id] = session[:user_id]
+      puts params[:transaction][:user_id]
+
+      params.require(:transaction).permit(:label, :amount, :date, :withdrawal, :user_id)
     end
 end
