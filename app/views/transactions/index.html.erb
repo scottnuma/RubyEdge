@@ -16,5 +16,4 @@
 </table>
 Total: <%= format("$%.2f", @total) %>
 <br><br>
-<!-- This is hard coded - TODO fix it with a link_to -->
-<a href="/transactions.csv">CSV File</a>
+<%= link_to "CSV", transactions_path(format: "csv") %>

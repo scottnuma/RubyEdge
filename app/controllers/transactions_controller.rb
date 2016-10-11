@@ -1,6 +1,6 @@
 class TransactionsController < ApplicationController
   def index
-    @transactions = Transaction.all
+    @transactions = Transaction.select { |t| t[:user_id] == session[:user_id] }
     @total = 0
     @transactions.each do |t|
       @total += t.amount
@@ -8,12 +8,23 @@ class TransactionsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv { send_data @transactions.to_csv, filename: "users-#{Date.today}.csv"}
+      format.csv { send_data to_csv(@transactions), filename: "ruby-edge-#{Date.today}.csv"}
+    end
+  end
+
+  def to_csv (transactionSubset)
+    attributes = %w{amount form_date label}
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+      transactionSubset.each do |transaction|
+          csv << attributes.map { |attr| transaction.send(attr)}
+      end
     end
   end
 
   def show
     @transaction = Transaction.find(params[:id])
+    checkPermissions(@transaction)
   end
 
   def new
@@ -21,6 +32,7 @@ class TransactionsController < ApplicationController
 
   def edit
     @transaction = Transaction.find(params[:id])
+    checkPermissions(@transaction)
   end
 
   def create
@@ -33,27 +45,37 @@ class TransactionsController < ApplicationController
     else
       # In case of failure, go ahead and create a new transaction
       render 'new'
+      # @transaction still holds the old transaction, and thus has the
+      # errorneous arguments
     end
   end
 
   def update
     @transaction = Transaction.find(params[:id])
-
-    if @transaction.update(transaction_params)
-      redirect_to @transaction
-    else
-      render 'edit'
-    end
+    checkPermissions(@transaction)
   end
 
   def destroy
     @transaction = Transaction.find(params[:id])
+    checkPermissions(@transaction)
     @transaction.destroy
     redirect_to transactions_path
   end
 
   private
     def transaction_params
-      params.require(:transaction).permit(:label, :amount, :date, :withdrawal)
+      # Add an extra argument that doens't originate in the format
+      # Rather pull from the current user
+      params[:transaction][:user_id] = session[:user_id]
+      puts params[:transaction][:user_id]
+
+      params.require(:transaction).permit(:label, :amount, :date, :withdrawal, :user_id)
+    end
+
+    def checkPermissions(transactionToCheck)
+      if (transactionToCheck && transactionToCheck[:user_id] != session[:user_id])
+        flash.keep[:alert] = "You lack view permissions for this transaction"
+        redirect_to root_path
+      end
     end
 end
