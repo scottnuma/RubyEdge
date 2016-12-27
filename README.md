@@ -1,27 +1,9 @@
 # Ruby Edge [![Build Status](https://travis-ci.org/scottnuma/RubyEdge.svg)](https://travis-ci.org/scottnuma/RubyEdge)
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+An implementation of financial tracking with Ruby on Rails. Ruby Edge is a
+continuation of Ledgers - a financial management system for iOS. Ruby Edge was
+made due to the need for financial management from multiple platforms.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Ruby Edge allows users to store a log of transactions and track their current
+balance. Ruby Edge moves beyond Ledgers with authentication through Google and a
+web based interface accessible from any browser.

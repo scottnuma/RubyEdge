@@ -16,9 +16,10 @@ gem 'simple_form'
 # Google authentication
 gem 'omniauth-google-oauth2', '~> 0.2.1'
 
-group :development, :test do
+group :test do
   gem 'rake'
 end
+
 
 group :development do
   gem 'better_errors'
