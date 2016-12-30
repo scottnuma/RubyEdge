@@ -3,7 +3,8 @@ class TransactionsController < ApplicationController
     @transactions = Transaction.select { |t| t[:user_id] == session[:user_id] }
     @total = 0
     @transactions.each do |t|
-      @total += t.amount
+	    # TODO This is ignoring the withdraw/deposit attribute
+      @total += t.form_amount()
     end
 
     respond_to do |format|

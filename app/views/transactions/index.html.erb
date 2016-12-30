@@ -5,6 +5,7 @@
     <tr>
         <td><%= link_to transaction.label, transaction_path(transaction) %></td>
         <td><%= format("$%.2f", transaction.form_amount.to_f) %></td>
+	<td><%= transaction.withdrawal_label %></td>
         <td><%= transaction.form_date %></td>
 
         <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>

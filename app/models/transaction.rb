@@ -41,12 +41,20 @@ class Transaction < ActiveRecord::Base
   def form_amount
     if withdrawal != nil
       if withdrawal
-        return amount
-      else
         return amount * -1
+      else
+        return amount
       end
     end
     return amount
+  end
+
+  def withdrawal_label
+	  if withdrawal
+		  return "withdrawal"
+	  else
+		  return "deposit"
+	  end
   end
 
 end
