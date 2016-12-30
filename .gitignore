@@ -18,3 +18,4 @@
 
 # Ignreo the finder stuff
 .DS_Store
+*.swp
