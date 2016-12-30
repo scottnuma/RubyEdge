@@ -12,6 +12,8 @@ gem 'foundation-rails', '~> 5.5'
 gem 'gibbon'
 gem 'high_voltage'
 gem 'simple_form'
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
 
 # Google authentication
 gem 'omniauth-google-oauth2', '~> 0.2.1'
