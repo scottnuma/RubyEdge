@@ -1,5 +1,10 @@
+
 <h1>All Transactions</h1>
+
+<button class="btn btn-default">
 <%= link_to 'New Transaction', new_transaction_path %>
+</button>
+<br>
 <table class="table">
     <% @transactions.each do |transaction| %>
     <tr>
@@ -17,4 +22,6 @@
 </table>
 Total: <%= format("$%.2f", @total) %>
 <br><br>
+<button class="btn btn-default">
 <%= link_to "Download CSV", transactions_path(format: "csv") %>
+</button>
