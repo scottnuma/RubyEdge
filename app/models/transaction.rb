@@ -1,43 +1,33 @@
+# Class for storing information about monetary purchases.
 class Transaction < ActiveRecord::Base
-
   validates_presence_of :amount
   validates_presence_of :label
   validates_presence_of :date
-  # validates_presence_of :withdrawal
 
-  def testin
-    puts "yup"
-    "okie"
-  end
-
+	# TODO this doesn't work except for the date
   def to_s
-    "Transaction(#{@amount}, #{@label}, #{@date})"
+		"Transaction(#{@label}, #{@amount}, #{@withdrawal}, #{@date})"
   end
 
+  # Returns the string form of the transaction.
+  # Accounts for missing fields
   def inspect
     # These variables currently aren't initialized
-    amt, desc, dat = @amount, @label, @date
+    amt, desc, dat, with = @amount, @label, @date, @withdrawal
     amt ||= "nil"
     desc ||= "nil"
     dat ||= "nil"
-
-    "Transaction(#{amt}, #{desc}, #{form_date})"
+		with ||= "nil"
+		
+    "Transaction(#{desc}, #{amt}, #{with}, #{form_date})"
   end
-
-  def self.to_csv
-    attributes = %w{amount form_date label}
-    CSV.generate(headers: true) do |csv|
-      csv << attributes
-      all.each do |transaction|
-          csv << attributes.map { |attr| transaction.send(attr)}
-      end
-    end
-  end
-
+  # Returns a formatted string of the date.
   def form_date
     "#{date.month}/#{date.day}/#{date.year - 2000}"
   end
 
+  # Returns the positive / negative amount depending upon if 
+  # the Transaction is a withdrawal.
   def form_amount
     if withdrawal != nil
       if withdrawal
@@ -49,6 +39,7 @@ class Transaction < ActiveRecord::Base
     return amount
   end
 
+  # Returns a string of the withdrawal status.
   def withdrawal_label
 	  if withdrawal
 		  return "withdrawal"
@@ -56,5 +47,11 @@ class Transaction < ActiveRecord::Base
 		  return "deposit"
 	  end
   end
+
+	def self.import(file)
+		CSV.foreach(file.path, headers: true) do |row|
+			Transaction.create! row.to_hash
+		end
+	end
 
 end

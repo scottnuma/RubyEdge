@@ -1,9 +1,9 @@
 class TransactionsController < ApplicationController
+
   def index
     @transactions = Transaction.select { |t| t[:user_id] == session[:user_id] }
     @total = 0
     @transactions.each do |t|
-	    # TODO This is ignoring the withdraw/deposit attribute
       @total += t.form_amount()
     end
 
@@ -13,8 +13,10 @@ class TransactionsController < ApplicationController
     end
   end
 
+	# Returns a CSV file containing all the user's transactions
   def to_csv (transactionSubset)
-    attributes = %w{amount form_date label}
+		# The attributes to include in the csv
+    attributes = %w{label amount withdrawal date}
     CSV.generate(headers: true) do |csv|
       csv << attributes
       transactionSubset.each do |transaction|
@@ -82,6 +84,6 @@ class TransactionsController < ApplicationController
       if (transactionToCheck && transactionToCheck[:user_id] != session[:user_id])
         flash.keep[:alert] = "You lack view permissions for this transaction"
         redirect_to root_path
-      end
+			end
     end
 end
